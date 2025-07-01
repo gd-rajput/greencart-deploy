@@ -15,28 +15,43 @@ import { stripeWebhooks } from './controllers/orderController.js';
 const app = express();
 const port = process.env.PORT || 4000;
 
-await connectDB()
-await connectCloudinary()
+await connectDB();
+await connectCloudinary();
 
-// Allow multiple origins
-const allowedOrigins = ['http://localhost:5173', 'https://greencart-deploy-6nm9.vercel.app']
+// Define allowed origins
+const allowedOrigins = new Set([
+  'http://localhost:5173',
+  'https://greencart-deploy-6nm9.vercel.app',
+  'https://greencart-deploy-3ivd.vercel.app' // Added the new frontend deployment URL
+]);
 
-app.post('/stripe', express.raw({type: 'application/json'}), stripeWebhooks)
+// Stripe webhook (needs raw body)
+app.post('/stripe', express.raw({ type: 'application/json' }), stripeWebhooks);
 
-// Middleware configuration
+// Middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({origin: allowedOrigins, credentials: true}));
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.has(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS: ' + origin));
+    }
+  },
+  credentials: true
+}));
 
-
+// Routes
 app.get('/', (req, res) => res.send("API is Working"));
-app.use('/api/user', userRouter)
-app.use('/api/seller', sellerRouter)
-app.use('/api/product', productRouter)
-app.use('/api/cart', cartRouter)
-app.use('/api/address', addressRouter)
-app.use('/api/order', orderRouter)
+app.use('/api/user', userRouter);
+app.use('/api/seller', sellerRouter);
+app.use('/api/product', productRouter);
+app.use('/api/cart', cartRouter);
+app.use('/api/address', addressRouter);
+app.use('/api/order', orderRouter);
 
-app.listen(port, ()=>{
-    console.log(`Server is running on http://localhost:${port}`)
-})
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
