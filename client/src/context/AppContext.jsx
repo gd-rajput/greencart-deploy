@@ -155,6 +155,9 @@ const getCartAmount = () =>{
     </AppContext.Provider>
 }
 
+
+//by this function we can use context in any component
+// useAppContext is a custom hook to access the AppContext
 export const useAppContext = ()=>{
     return useContext(AppContext)
 }

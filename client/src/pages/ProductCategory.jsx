@@ -8,7 +8,9 @@ const ProductCategory = () => {
 
     const { products } =  useAppContext()
     const { category } = useParams()
+ 
 
+    //search from categories asset.js
     const searchCategory = categories.find((item)=> item.path.toLowerCase() === category)
 
     const filteredProducts = products.filter((product)=>product.category.toLowerCase() === category)

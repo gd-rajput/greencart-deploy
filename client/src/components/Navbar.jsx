@@ -80,6 +80,8 @@ const Navbar = () => {
 
       { open && (
         <div className={`${open ? 'flex' : 'hidden'} absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden`}>
+        
+        {/* after clicking on any menu it should close the mobile menu. therefore onclick function is added */}
         <NavLink to="/" onClick={()=> setOpen(false)}>Home</NavLink>
         <NavLink to="/products" onClick={()=> setOpen(false)}>All Product</NavLink>
         {user && 

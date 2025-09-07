@@ -13,9 +13,13 @@ import orderRouter from './routes/orderRoute.js';
 import { stripeWebhooks } from './controllers/orderController.js';
 
 const app = express();
+
 const port = process.env.PORT || 4000;
 
+
+// Connect to MongoDB and Cloudinary from db.js and cloudinary.js
 await connectDB();
+
 await connectCloudinary();
 
 // Define allowed origins

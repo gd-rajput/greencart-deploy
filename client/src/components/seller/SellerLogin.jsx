@@ -15,7 +15,7 @@ const SellerLogin = () => {
                 setIsSeller(true)
                 navigate('/seller')
             }else{
-                toast.error(data.message)
+                toast.error(data.message) 
             }
         } catch (error) {
             toast.error(error.message)
@@ -29,6 +29,9 @@ const SellerLogin = () => {
         }
     },[isSeller])
 
+    //form will open only when seller is not logged in  
+    //if seller is logged in, redirect to seller dashboard
+    //if not logged in, show the login form
   return !isSeller && (
     <form onSubmit={onSubmitHandler} className='min-h-screen flex items-center text-sm text-gray-600'>
 

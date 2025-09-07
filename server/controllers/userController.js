@@ -60,8 +60,10 @@ export const login = async (req, res)=>{
         res.cookie('token', token, {
             httpOnly: true, 
             secure: process.env.NODE_ENV === 'production',
+            // production
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-            maxAge: 7 * 24 * 60 * 60 * 1000,
+            //CSRF protection
+            maxAge: 7 * 24 * 60 * 60 * 1000, // cookie expiration time
         })
 
         return res.json({success: true, user: {email: user.email, name: user.name}})
@@ -100,3 +102,6 @@ export const logout = async (req, res)=>{
         res.json({ success: false, message: error.message });
     }
 }
+
+// import connectCloudinary from '../configs/cloudinary.js';
+// await connectCloudinary();
